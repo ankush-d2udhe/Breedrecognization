@@ -121,7 +121,9 @@ const AIChatbot = () => {
 
     // Check if API key is present, if not use mock responses
     const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
-    if (!apiKey || apiKey === "your_openai_api_key_here") {
+    console.log('API Key status:', apiKey ? 'Present' : 'Missing');
+    
+    if (!apiKey || apiKey === "your_openai_api_key_here" || apiKey === "undefined") {
       // Use mock AI responses for demo
       setTimeout(() => {
         const mockResponses = {
@@ -178,12 +180,13 @@ const AIChatbot = () => {
         },
       ];
 
+      console.log('Making API request to OpenRouter...');
       const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${apiKey}`,
           "Content-Type": "application/json",
-          "HTTP-Referer": import.meta.env.VITE_SITE_URL || "http://localhost:3000",
+          "HTTP-Referer": import.meta.env.VITE_SITE_URL || "https://breed-topaz.vercel.app",
           "X-Title": import.meta.env.VITE_SITE_NAME || "FarmSenseGlow AI Chatbot",
         },
         body: JSON.stringify({
@@ -212,11 +215,15 @@ const AIChatbot = () => {
       setMessages((prev) => [...prev, botResponse]);
     } catch (err) {
       console.error("Chat error:", err);
+      const errorMessage = err instanceof Error && err.message.includes('401') 
+        ? "🔑 API key not configured. Using demo responses for now. Contact admin to enable full AI features."
+        : "⚠️ Error contacting AI service. Please try again.";
+      
       setMessages((prev) => [
         ...prev,
         {
           id: (Date.now() + 2).toString(),
-          text: "⚠️ Error contacting AI service. Please try again.",
+          text: errorMessage,
           sender: "bot",
           timestamp: new Date(),
         },
