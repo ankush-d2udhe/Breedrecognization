@@ -210,7 +210,20 @@ const AIChatbot = () => {
       };
 
       setMessages((prev) => [...prev, botResponse]);
-
+    } catch (err) {
+      console.error("Chat error:", err);
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: (Date.now() + 2).toString(),
+          text: "⚠️ Error contacting AI service. Please try again.",
+          sender: "bot",
+          timestamp: new Date(),
+        },
+      ]);
+    } finally {
+      setIsTyping(false);
+    }
   };
 
   // Voice recognition toggle
@@ -431,6 +444,133 @@ const AIChatbot = () => {
                 {/* Typing Indicator */}
                 {isTyping && (
                   <div className="flex justify-start animate-fade-in">
+                    <div className="flex items-start gap-3">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg">
+                        <Bot className="w-5 h-5 text-white" />
+                      </div>
+                      <div className="p-4 rounded-2xl bg-white border border-green-200 shadow-md">
+                        <div className="flex space-x-2">
+                          <div className="w-2 h-2 bg-green-500 rounded-full animate-bounce" />
+                          <div className="w-2 h-2 bg-green-500 rounded-full animate-bounce" style={{ animationDelay: "0.1s" }} />
+                          <div className="w-2 h-2 bg-green-500 rounded-full animate-bounce" style={{ animationDelay: "0.2s" }} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                <div ref={messagesEndRef} />
+              </div>
+
+              {/* Input Section */}
+              <div className="p-6 border-t border-green-200 bg-white/80 backdrop-blur-sm">
+                {/* Image Preview */}
+                {selectedImage && (
+                  <div className="mb-4 relative inline-block">
+                    <img 
+                      src={selectedImage} 
+                      alt="Selected" 
+                      className="max-w-32 max-h-32 rounded-lg object-cover border-2 border-green-300"
+                    />
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      onClick={() => setSelectedImage(null)}
+                      className="absolute -top-2 -right-2 h-6 w-6 rounded-full p-0"
+                    >
+                      <X className="w-3 h-3" />
+                    </Button>
+                  </div>
+                )}
+
+                {/* Voice Listening Indicator */}
+                {isListening && (
+                  <div className="mb-4 text-center">
+                    <div className="inline-flex items-center gap-2 bg-red-100 text-red-700 px-4 py-2 rounded-full animate-pulse">
+                      <div className="w-2 h-2 bg-red-500 rounded-full animate-bounce" />
+                      <span className="text-sm font-medium">🎤 Listening... Speak now</span>
+                      <div className="w-2 h-2 bg-red-500 rounded-full animate-bounce" style={{ animationDelay: "0.2s" }} />
+                    </div>
+                  </div>
+                )}
+
+                <div className="flex items-end gap-3">
+                  <div className="flex-1">
+                    <Input
+                      value={inputText}
+                      onChange={(e) => setInputText(e.target.value)}
+                      placeholder={t('chatbot.placeholder')}
+                      onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+                      className="border-green-200 focus:border-amber-400 focus:ring-amber-400 bg-white/90"
+                    />
+                  </div>
+
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleImageUpload}
+                    accept="image/*"
+                    className="hidden"
+                  />
+
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="border-green-300 text-green-700 hover:bg-green-50"
+                  >
+                    <ImageIcon className="w-4 h-4" />
+                  </Button>
+
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={toggleListening}
+                    className={`${
+                      isListening 
+                        ? "bg-red-100 border-red-300 text-red-700" 
+                        : "border-green-300 text-green-700 hover:bg-green-50"
+                    }`}
+                  >
+                    {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+                  </Button>
+
+                  <Button
+                    onClick={sendMessage}
+                    disabled={!inputText.trim() && !selectedImage}
+                    className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white"
+                  >
+                    <Send className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Quick Actions */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+            {[
+              "🐄 Cattle health issues",
+              "🌾 Crop disease identification", 
+              "💊 Vaccination schedules",
+              "🌱 Best farming practices"
+            ].map((suggestion, index) => (
+              <Button
+                key={index}
+                variant="outline"
+                onClick={() => setInputText(suggestion.split(' ').slice(1).join(' '))}
+                className="bg-white/90 border-amber-200 text-green-700 hover:bg-amber-50 p-3 h-auto text-left"
+              >
+                <span className="text-sm">{suggestion}</span>
+              </Button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AIChatbot;ate-fade-in">
                     <div className="flex items-start gap-3">
                       <div className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg">
                         <Bot className="w-5 h-5 text-white" />
