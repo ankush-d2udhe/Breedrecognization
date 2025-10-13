@@ -119,19 +119,48 @@ const AIChatbot = () => {
     setSelectedImage(null);
     setIsTyping(true);
 
-    // Check if API key is present
+    // Check if API key is present, if not use mock responses
     const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
     if (!apiKey || apiKey === "your_openai_api_key_here") {
-      setIsTyping(false);
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: (Date.now() + 2).toString(),
-          text: "⚠️ Please set a valid OpenAI API key in .env file to use the AI chatbot.",
+      // Use mock AI responses for demo
+      setTimeout(() => {
+        const mockResponses = {
+          english: [
+            "🐄 For cattle health, ensure regular vaccination and clean water supply. Monitor for signs of illness like loss of appetite or unusual behavior.",
+            "🌾 Crop rotation is essential for soil health. Consider legumes to naturally fix nitrogen in the soil.",
+            "💊 Vaccination schedule: FMD every 6 months, Anthrax annually, and Brucellosis as recommended by your vet.",
+            "🌱 For better milk production, provide balanced nutrition with green fodder, concentrates, and mineral supplements.",
+            "🏥 Regular health checkups every 3 months can prevent major diseases. Contact your nearest veterinary hospital."
+          ],
+          hindi: [
+            "🐄 गाय की सेहत के लिए नियमित टीकाकरण और साफ पानी जरूरी है। भूख न लगना या असामान्य व्यवहार जैसे लक्षणों पर ध्यान दें।",
+            "🌾 मिट्टी की सेहत के लिए फसल चक्र जरूरी है। दलहनी फसलों से मिट्टी में नाइट्रोजन की मात्रा बढ़ती है।",
+            "💊 टीकाकरण कार्यक्रम: FMD हर 6 महीने, एंथ्रेक्स सालाना, और ब्रुसेलोसिस पशु चिकित्सक की सलाह पर।",
+            "🌱 बेहतर दूध उत्पादन के लिए हरा चारा, दाना और खनिज पूरक आहार दें।",
+            "🏥 हर 3 महीने में स्वास्थ्य जांच से बड़ी बीमारियों से बचा जा सकता है।"
+          ],
+          marathi: [
+            "🐄 गुरांच्या आरोग्यासाठी नियमित लसीकरण आणि स्वच्छ पाणी आवश्यक आहे। भूक न लागणे किंवा असामान्य वर्तन यावर लक्ष ठेवा।",
+            "🌾 मातीच्या आरोग्यासाठी पीक चक्र महत्वाचे आहे। कडधान्य पिकांमुळे मातीत नायट्रोजन वाढते।",
+            "💊 लसीकरण वेळापत्रक: FMD दर 6 महिन्यांनी, अँथ्रॅक्स वार्षिक, आणि ब्रुसेलोसिस पशुवैद्यकाच्या सल्ल्यानुसार।",
+            "🌱 चांगल्या दूध उत्पादनासाठी हिरवा चारा, दाणा आणि खनिज पूरक आहार द्या।",
+            "🏥 दर 3 महिन्यांनी आरोग्य तपासणी केल्याने मोठे आजार टाळता येतात।"
+          ]
+        };
+        
+        const responses = mockResponses[selectedLanguage as keyof typeof mockResponses] || mockResponses.english;
+        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+        
+        const botResponse: Message = {
+          id: (Date.now() + 1).toString(),
+          text: randomResponse,
           sender: "bot",
           timestamp: new Date(),
-        },
-      ]);
+        };
+        
+        setMessages((prev) => [...prev, botResponse]);
+        setIsTyping(false);
+      }, 1500);
       return;
     }
 
@@ -181,20 +210,7 @@ const AIChatbot = () => {
       };
 
       setMessages((prev) => [...prev, botResponse]);
-    } catch (err) {
-      console.error("Chat error:", err);
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: (Date.now() + 2).toString(),
-          text: "⚠️ Error contacting AI service. Please try again.",
-          sender: "bot",
-          timestamp: new Date(),
-        },
-      ]);
-    } finally {
-      setIsTyping(false);
-    }
+
   };
 
   // Voice recognition toggle
