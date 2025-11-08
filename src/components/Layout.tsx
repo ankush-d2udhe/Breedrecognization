@@ -27,6 +27,7 @@ const Layout = () => {
     { path: "/disease-prediction", label: t('nav.diseasePrediction') },
     { path: "/ai-chatbot", label: t('nav.aiChatbot') },
     { path: "/nearby-hospitals", label: t('nav.nearbyHospitals') },
+    { path: "/marketplace", label: "Marketplace" },
   ];
 
   return (

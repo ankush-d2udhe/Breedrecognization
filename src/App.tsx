@@ -11,6 +11,7 @@ import BreedRecognition from "./pages/BreedRecognition";
 import DiseasePrediction from "./pages/DiseasePrediction";
 import AIChatbot from "./pages/AIChatbot";
 import NearbyHospitals from "./pages/NearbyHospitals";
+import Marketplace from "./pages/Marketplace";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import NotFound from "./pages/NotFound";
@@ -44,6 +45,7 @@ const AppRoutes = () => {
             <Route path="disease-prediction" element={<DiseasePrediction />} />
             <Route path="ai-chatbot" element={<AIChatbot />} />
             <Route path="nearby-hospitals" element={<NearbyHospitals />} />
+            <Route path="marketplace" element={<Marketplace />} />
           </Route>
           <Route path="/login" element={<Navigate to="/" replace />} />
           <Route path="*" element={<Navigate to="/" replace />} />
