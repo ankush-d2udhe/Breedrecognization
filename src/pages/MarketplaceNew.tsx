@@ -17,9 +17,13 @@ interface MarketplaceItem {
   images: string[];
   seller_id: string;
   created_at: string;
+  profiles: {
+    full_name: string;
+    phone: string;
+  };
 }
 
-export default function Marketplace() {
+export default function MarketplaceNew() {
   const { user } = useAuth();
   const [items, setItems] = useState<MarketplaceItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -39,7 +43,10 @@ export default function Marketplace() {
     try {
       const { data, error } = await supabase
         .from('marketplace_items')
-        .select('*')
+        .select(`
+          id, title, price, description, images, seller_id, created_at,
+          profiles!inner(full_name, phone)
+        `)
         .eq('status', 'active')
         .order('created_at', { ascending: false });
 
@@ -75,7 +82,8 @@ export default function Marketplace() {
           description: formData.description,
           images: [imageUrl],
           seller_id: user.id,
-          category: 'cattle'
+          category: 'cattle',
+          status: 'active'
         });
 
       if (error) throw error;
@@ -88,7 +96,7 @@ export default function Marketplace() {
     }
   };
 
-  if (loading) return <div className="p-4">Loading...</div>;
+  if (loading) return <div className="p-4">Loading marketplace...</div>;
 
   return (
     <div className="container mx-auto p-4">
@@ -163,15 +171,17 @@ export default function Marketplace() {
               <CardTitle className="mb-2">{item.title}</CardTitle>
               <p className="text-2xl font-bold text-green-600 mb-2">₹{item.price.toLocaleString()}</p>
               <p className="text-gray-600 mb-4">{item.description}</p>
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-500">
-                  Seller: {item.seller_id.slice(0, 8)}...
-                </span>
+              <div className="space-y-2">
+                <div className="text-sm text-gray-600">
+                  <p><strong>Seller:</strong> {item.profiles.full_name}</p>
+                  <p><strong>Phone:</strong> {item.profiles.phone}</p>
+                </div>
                 <Button
                   size="sm"
-                  onClick={() => alert('Contact seller via marketplace')}
+                  onClick={() => window.open(`tel:${item.profiles.phone}`, '_self')}
+                  className="w-full"
                 >
-                  <Phone className="w-4 h-4 mr-1" />Contact
+                  <Phone className="w-4 h-4 mr-1" />Call Seller
                 </Button>
               </div>
               <p className="text-xs text-gray-400 mt-2">

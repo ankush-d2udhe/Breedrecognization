@@ -11,7 +11,7 @@ import BreedRecognition from "./pages/BreedRecognition";
 import DiseasePrediction from "./pages/DiseasePrediction";
 import AIChatbot from "./pages/AIChatbot";
 import NearbyHospitals from "./pages/NearbyHospitals";
-import Marketplace from "./pages/Marketplace";
+import Marketplace from "./pages/MarketplaceNew";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import NotFound from "./pages/NotFound";

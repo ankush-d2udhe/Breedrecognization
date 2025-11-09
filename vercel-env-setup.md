@@ -12,7 +12,7 @@ Your chatbot is getting a 401 error because the OpenAI API key isn't available i
 4. Add these variables:
 
 ```
-VITE_OPENAI_API_KEY = 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
+VITE_GEMINI_API_KEY = your_gemini_api_key_here
 VITE_SITE_URL = https://breed-topaz.vercel.app
 VITE_SITE_NAME = FarmSenseGlow
 ```
@@ -29,8 +29,8 @@ npm i -g vercel
 vercel login
 
 # Add environment variables
-vercel env add VITE_OPENAI_API_KEY
-# Paste: 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
+vercel env add VITE_GEMINI_API_KEY
+# Paste: your_gemini_api_key_here
 
 vercel env add VITE_SITE_URL
 # Paste: https://breed-topaz.vercel.app

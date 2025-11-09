@@ -48,7 +48,7 @@ class MarketplaceService {
       .from('marketplace_items')
       .select(`
         *,
-        profiles!marketplace_items_seller_id_fkey(full_name, phone)
+        profiles!inner(full_name, phone)
       `)
       .eq('status', 'active')
       .order('created_at', { ascending: false });

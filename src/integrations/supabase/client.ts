@@ -5,8 +5,8 @@ import type { Database } from './types';
 // Prefer Vite env vars (VITE_*) when available. Fall back to NEXT_PUBLIC_* for compatibility
 // and finally to the embedded defaults. Using env vars makes it easier to change
 // origins for local development (important for CORS checks).
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL ?? import.meta.env.NEXT_PUBLIC_SUPABASE_URL ?? "https://ibckoaekfcefniquqcnu.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY ?? import.meta.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImliY2tvYWVrZmNlZm5pcXVxY251Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTcyNjkxMTYsImV4cCI6MjA3Mjg0NTExNn0.FFSS6aQT8QeI1LdA2UaTVL_1pZXvAdG00PY2McBovT8";
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL ?? import.meta.env.NEXT_PUBLIC_SUPABASE_URL ?? "https://ymsbgrzedjmknowsbpuq.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY ?? import.meta.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "sb_publishable_g6voqGj8zJPrgSGkl2WqOg_WKdL10rw";
 
 // Import the supabase client like this:
 // import { supabase } from "@/integrations/supabase/client";

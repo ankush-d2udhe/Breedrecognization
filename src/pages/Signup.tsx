@@ -14,6 +14,8 @@ const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [fullName, setFullName] = useState('');
+  const [phone, setPhone] = useState('');
   const [selectedLanguage, setSelectedLanguage] = useState<Language>('en');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -45,6 +47,12 @@ const Signup = () => {
       const { error } = await supabase.auth.signUp({
         email,
         password,
+        options: {
+          data: {
+            full_name: fullName,
+            phone: phone
+          }
+        }
       });
 
       if (error) {
@@ -139,6 +147,32 @@ const Signup = () => {
                   </SelectContent>
                 </Select>
                 <p className={`text-green-600 ${isMobile ? 'text-xs' : 'text-sm'}`}>Choose your preferred language for the website</p>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="fullName" className={`text-green-700 font-medium ${isMobile ? 'text-sm' : ''}`}>Full Name</Label>
+                <Input
+                  id="fullName"
+                  type="text"
+                  placeholder="Enter your full name"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  required
+                  className={`border-green-200 focus:border-amber-400 focus:ring-amber-400 ${isMobile ? 'h-11 text-base' : ''}`}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="phone" className={`text-green-700 font-medium ${isMobile ? 'text-sm' : ''}`}>Phone Number</Label>
+                <Input
+                  id="phone"
+                  type="tel"
+                  placeholder="Enter your phone number"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  required
+                  className={`border-green-200 focus:border-amber-400 focus:ring-amber-400 ${isMobile ? 'h-11 text-base' : ''}`}
+                />
               </div>
 
               <div className="space-y-2">

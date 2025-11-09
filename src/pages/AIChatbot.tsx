@@ -120,10 +120,10 @@ const AIChatbot = () => {
     setIsTyping(true);
 
     // Check if API key is present, if not use mock responses
-    const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
-    console.log('API Key status:', apiKey ? 'Present' : 'Missing');
+    const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+    console.log('Gemini API Key status:', apiKey ? 'Present' : 'Missing');
     
-    if (!apiKey || apiKey === "your_openai_api_key_here" || apiKey === "undefined") {
+    if (!apiKey || apiKey === "your_gemini_api_key_here" || apiKey === "undefined") {
       // Use mock AI responses for demo
       setTimeout(() => {
         const mockResponses = {
@@ -167,31 +167,18 @@ const AIChatbot = () => {
     }
 
     try {
-      const messages_for_api = [
-        {
-          role: "system",
-          content: `You are a helpful AI farming assistant specializing in livestock care, crop management, disease identification, and agricultural best practices. Respond in ${languages[selectedLanguage as keyof typeof languages]}. Be friendly, informative, and use farming emojis when appropriate.`,
-        },
-        { 
-          role: "user", 
-          content: selectedImage 
-            ? `${userMessage.text}\n\n[User has uploaded an image - please acknowledge this and provide relevant farming advice based on the context]`
-            : userMessage.text 
-        },
-      ];
+      const prompt = `You are a helpful AI farming assistant specializing in livestock care, crop management, disease identification, and agricultural best practices. Respond in ${languages[selectedLanguage as keyof typeof languages]}. Be friendly, informative, and use farming emojis when appropriate.\n\nUser: ${selectedImage ? `${userMessage.text} [User has uploaded an image - please acknowledge this and provide relevant farming advice based on the context]` : userMessage.text}`;
 
-      console.log('Making API request to OpenRouter...');
-      const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+      console.log('Making API request to Gemini...');
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`, {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${apiKey}`,
           "Content-Type": "application/json",
-          "HTTP-Referer": import.meta.env.VITE_SITE_URL || "https://breed-topaz.vercel.app",
-          "X-Title": import.meta.env.VITE_SITE_NAME || "FarmSenseGlow AI Chatbot",
         },
         body: JSON.stringify({
-          model: "openai/gpt-4o-mini",
-          messages: messages_for_api,
+          contents: [{
+            parts: [{ text: prompt }]
+          }]
         }),
       });
 
@@ -202,7 +189,7 @@ const AIChatbot = () => {
       const data = await res.json();
       
       const reply =
-        data?.choices?.[0]?.message?.content?.trim() ||
+        data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim() ||
         "⚠️ Sorry, I couldn't generate a response.";
 
       const botResponse: Message = {
@@ -216,8 +203,8 @@ const AIChatbot = () => {
     } catch (err) {
       console.error("Chat error:", err);
       const errorMessage = err instanceof Error && err.message.includes('401') 
-        ? "🔑 API key not configured. Using demo responses for now. Contact admin to enable full AI features."
-        : "⚠️ Error contacting AI service. Please try again.";
+        ? "🔑 Gemini API key not configured. Using demo responses for now. Contact admin to enable full AI features."
+        : "⚠️ Error contacting Gemini AI service. Please try again.";
       
       setMessages((prev) => [
         ...prev,
