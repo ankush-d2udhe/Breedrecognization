@@ -1,0 +1,177 @@
+.gooey-nav {
+  position: relative;
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 50%, #15803d 100%);
+  border-radius: 50px;
+  padding: 8px;
+  box-shadow: 
+    0 10px 30px rgba(34, 197, 94, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.gooey-bg {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right: 4px;
+  bottom: 4px;
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b  50%, #d97706 100%);
+  border-radius: 40px;
+  width: calc((100% - 8px) / var(--nav-items, 6));
+  transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 
+    0 4px 15px rgba(251, 191, 36, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  z-index: 1;
+}
+
+.nav-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  border-radius: 36px;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+  z-index: 2;
+  min-width: 80px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.nav-item:hover {
+  color: rgba(255, 255, 255, 1);
+  transform: translateY(-2px);
+}
+
+.nav-item.active {
+  color: #15803d;
+  font-weight: 600;
+}
+
+.nav-icon {
+  font-size: 1.25rem;
+  margin-bottom: 4px;
+  transition: transform 0.3s ease;
+}
+
+.nav-item:hover .nav-icon {
+  transform: scale(1.1);
+}
+
+.nav-item.active .nav-icon {
+  transform: scale(1.15);
+}
+
+.nav-label {
+  font-size: 0.75rem;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+}
+
+.nav-item.active .nav-label {
+  font-weight: 700;
+}
+
+/* Gooey effect using CSS filters */
+.gooey-nav::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50px;
+  background: linear-gradient(135deg, 
+    rgba(34, 197, 94, 0.1) 0%, 
+    rgba(22, 163, 74, 0.1) 50%, 
+    rgba(21, 128, 61, 0.1) 100%);
+  filter: blur(20px);
+  z-index: -1;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .gooey-nav {
+    padding: 6px;
+    border-radius: 40px;
+  }
+  
+  .nav-item {
+    padding: 10px 12px;
+    min-width: 60px;
+  }
+  
+  .nav-icon {
+    font-size: 1.1rem;
+    margin-bottom: 2px;
+  }
+  
+  .nav-label {
+    font-size: 0.7rem;
+  }
+}
+
+/* Farming-themed color variations */
+.gooey-nav.farm-theme {
+  background: linear-gradient(135deg, 
+    #16a34a 0%,   /* Fresh green */
+    #22c55e 25%,  /* Bright green */
+    #84cc16 50%,  /* Lime green */
+    #65a30d 75%,  /* Darker lime */
+    #166534 100%  /* Forest green */
+  );
+}
+
+.gooey-nav.farm-theme .gooey-bg {
+  background: linear-gradient(135deg, 
+    #fbbf24 0%,   /* Golden yellow */
+    #f59e0b 25%,  /* Amber */
+    #d97706 50%,  /* Orange */
+    #ea580c 75%,  /* Red-orange */
+    #dc2626 100%  /* Red */
+  );
+}
+
+/* Animation keyframes */
+@keyframes gooey-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.nav-item:active {
+  animation: gooey-pulse 0.3s ease;
+}
+
+/* Hover glow effect */
+.nav-item::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.nav-item:hover::after {
+  width: 100%;
+  height: 100%;
+}

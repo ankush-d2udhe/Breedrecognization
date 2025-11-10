@@ -6,6 +6,7 @@ import { LogOut, Menu, X } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useLanguage } from "@/contexts/LanguageContext";
 import AnimatedBackground from './AnimatedBackground';
+import GooeyNav from './GooeyNav';
 
 const Layout = () => {
   const location = useLocation();
@@ -22,12 +23,12 @@ const Layout = () => {
   };
 
   const navItems = [
-    { path: "/", label: t('nav.home') },
-    { path: "/breed-recognition", label: t('nav.breedRecognition') },
-    { path: "/disease-prediction", label: t('nav.diseasePrediction') },
-    { path: "/ai-chatbot", label: t('nav.aiChatbot') },
-    { path: "/nearby-hospitals", label: t('nav.nearbyHospitals') },
-    { path: "/marketplace", label: "Marketplace" },
+    { path: "/", label: t('nav.home'), icon: "🏠" },
+    { path: "/breed-recognition", label: t('nav.breedRecognition'), icon: "🐄" },
+    { path: "/disease-prediction", label: t('nav.diseasePrediction'), icon: "🔬" },
+    { path: "/ai-chatbot", label: t('nav.aiChatbot'), icon: "🤖" },
+    { path: "/nearby-hospitals", label: t('nav.nearbyHospitals'), icon: "🏥" },
+    { path: "/marketplace", label: "Marketplace", icon: "🛒" },
   ];
 
   return (
@@ -60,22 +61,13 @@ const Layout = () => {
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-1 bg-white/10 rounded-full p-1 backdrop-blur-sm">
-              {navItems.map((item) => (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  onClick={() => setActiveTab(item.path)}
-                  className={`px-4 py-2 rounded-full font-medium transition-all duration-300 text-sm ${
-                    activeTab === item.path
-                      ? "bg-amber-400 text-green-800 shadow-md font-semibold"
-                      : "text-white hover:bg-white/20 hover:text-amber-200"
-                  }`}
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </nav>
+            <div className="hidden md:block" style={{ '--nav-items': navItems.length } as React.CSSProperties}>
+              <GooeyNav 
+                items={navItems}
+                activeTab={activeTab}
+                onTabChange={setActiveTab}
+              />
+            </div>
 
             {/* Mobile Menu Button & User Menu */}
             <div className="flex items-center space-x-2">
@@ -124,13 +116,14 @@ const Layout = () => {
                       setActiveTab(item.path);
                       setMobileMenuOpen(false);
                     }}
-                    className={`block px-3 py-2 rounded-lg font-medium transition-all duration-300 text-sm ${
+                    className={`flex items-center space-x-3 px-3 py-2 rounded-lg font-medium transition-all duration-300 text-sm ${
                       activeTab === item.path
                         ? "bg-amber-400 text-green-800 shadow-md font-semibold"
                         : "text-white hover:bg-white/20 hover:text-amber-200"
                     }`}
                   >
-                    {item.label}
+                    <span className="text-lg">{item.icon}</span>
+                    <span>{item.label}</span>
                   </Link>
                 ))}
               </nav>
