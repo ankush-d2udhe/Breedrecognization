@@ -24,6 +24,7 @@ import {
   Sparkles
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import SplitText from "@/components/SplitText";
 
 interface Message {
   id: string;
@@ -317,6 +318,16 @@ const AIChatbot = () => {
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-green-50 to-emerald-100 relative">
       <div className="container mx-auto px-4 py-8 relative z-10">
         <div className="max-w-4xl mx-auto">
+          {/* Page Title */}
+          <div className="text-center mb-8">
+            <SplitText 
+              text="🤖 AI Farming Assistant"
+              className="page-title"
+              delay={0.2}
+              stagger={0.05}
+            />
+            <p className="text-green-600 mt-2">Get instant answers to your farming questions in multiple languages</p>
+          </div>
           {/* Controls */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             {/* Language Selection */}

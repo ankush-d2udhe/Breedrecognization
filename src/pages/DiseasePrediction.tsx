@@ -11,6 +11,7 @@ import config from "@/config";
 import apiService from "@/services/api";
 import { getUserFriendlyMessage } from "@/lib/error-handler";
 import { compressImage, imageToBase64, isValidImage } from "@/lib/image-utils";
+import SplitText from "@/components/SplitText";
 
 const DiseasePrediction = () => {
   const { toast } = useToast();
@@ -234,7 +235,12 @@ const DiseasePrediction = () => {
     <div className="min-h-screen py-20 bg-background">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12 fade-in-up">
-          <h1 className="text-4xl font-bold text-primary mb-4">AI Disease Prediction</h1>
+          <SplitText 
+            text="AI Disease Prediction"
+            className="page-title mb-4"
+            delay={0.3}
+            stagger={0.06}
+          />
           <p className="text-xl text-muted-foreground">
             Advanced AI-powered disease detection and medical analysis for cattle and buffalo
           </p>

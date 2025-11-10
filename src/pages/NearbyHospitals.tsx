@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { MapPin, Phone, Navigation, Clock, Star, Search, MessageCircle, AlertTriangle, Shield, Zap } from "lucide-react";
+import SplitText from "@/components/SplitText";
 
 declare global {
   interface Window {
@@ -394,7 +395,12 @@ const NearbyHospitals = () => {
       {/* Header */}
       <div className="bg-gradient-to-r from-green-800 via-emerald-700 to-green-800 text-white py-16">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl font-bold mb-4">🏥 Nearby Veterinary Hospitals</h1>
+          <SplitText 
+            text="🏥 Nearby Veterinary Hospitals"
+            className="page-title mb-4"
+            delay={0.3}
+            stagger={0.05}
+          />
           <p className="text-xl text-green-100">Find qualified veterinarians and emergency care for your livestock</p>
         </div>
       </div>

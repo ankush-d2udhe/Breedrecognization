@@ -1,0 +1,152 @@
+.split-text {
+  perspective: 1000px;
+  overflow: hidden;
+}
+
+.split-text .char {
+  display: inline-block;
+  transform-style: preserve-3d;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: inherit;
+  color: inherit;
+  text-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.1),
+    0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.split-text .char:hover {
+  text-shadow: 
+    0 4px 8px rgba(22, 163, 74, 0.3),
+    0 2px 4px rgba(22, 163, 74, 0.2);
+}
+
+/* Farming-themed title styles */
+.split-text.hero-title {
+  font-size: clamp(2.5rem, 8vw, 6rem);
+  font-weight: 800;
+  background: linear-gradient(135deg, 
+    #15803d 0%,   /* Green-700 */
+    #16a34a 25%,  /* Green-600 */
+    #22c55e 50%,  /* Green-500 */
+    #4ade80 75%,  /* Green-400 */
+    #86efac 100%  /* Green-300 */
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.split-text.page-title {
+  font-size: clamp(2rem, 6vw, 4rem);
+  font-weight: 700;
+  color: #15803d;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.split-text.section-title {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-weight: 600;
+  color: #166534;
+  line-height: 1.3;
+}
+
+.split-text.subtitle {
+  font-size: clamp(1rem, 3vw, 1.5rem);
+  font-weight: 500;
+  color: #16a34a;
+  line-height: 1.4;
+}
+
+/* Animation variants */
+.split-text.fade-up .char {
+  animation: fadeUp 0.8s ease-out forwards;
+}
+
+.split-text.bounce-in .char {
+  animation: bounceIn 1s ease-out forwards;
+}
+
+.split-text.rotate-in .char {
+  animation: rotateIn 0.8s ease-out forwards;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) translateY(50px);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05) translateY(-10px);
+  }
+  70% {
+    transform: scale(0.9) translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes rotateIn {
+  from {
+    opacity: 0;
+    transform: rotateY(-90deg) translateZ(-100px);
+  }
+  to {
+    opacity: 1;
+    transform: rotateY(0) translateZ(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .split-text.hero-title {
+    font-size: clamp(2rem, 10vw, 3.5rem);
+  }
+  
+  .split-text.page-title {
+    font-size: clamp(1.5rem, 8vw, 2.5rem);
+  }
+  
+  .split-text .char {
+    text-shadow: 
+      0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .split-text .char {
+    animation: none !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* Performance optimizations */
+.split-text {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.split-text .char {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}

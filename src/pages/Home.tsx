@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useLanguage } from "@/contexts/LanguageContext";
+import SplitText from "@/components/SplitText";
 
 const Home = () => {
   const cardsRef = useRef<HTMLDivElement>(null);
@@ -72,9 +73,12 @@ const Home = () => {
         </div>
         
         <div className={`relative z-10 text-center text-white ${isMobile ? 'max-w-sm' : 'max-w-4xl'} mx-auto px-4`}>
-          <h1 className={`${isMobile ? 'text-3xl' : 'text-5xl md:text-7xl'} font-bold mb-6 bounce-in`}>
-            {t('home.heroTitle')}
-          </h1>
+          <SplitText 
+            text={t('home.heroTitle')}
+            className={`hero-title mb-6 ${isMobile ? 'text-3xl' : 'text-5xl md:text-7xl'}`}
+            delay={0.5}
+            stagger={0.08}
+          />
           <p className={`${isMobile ? 'text-lg' : 'text-xl md:text-2xl'} mb-8 fade-in-up`}>
             {t('home.heroSubtitle')}
           </p>
@@ -97,9 +101,12 @@ const Home = () => {
       <section className={`${isMobile ? 'py-12' : 'py-20'} bg-gradient-to-r from-green-100/80 via-amber-50/80 to-green-100/80 backdrop-blur-sm relative z-10`}>
         <div className="container mx-auto px-4">
           <div className={`text-center ${isMobile ? 'mb-8' : 'mb-16'} fade-in-up`}>
-            <h2 className={`${isMobile ? 'text-2xl' : 'text-4xl'} font-bold text-primary mb-6`}>
-              {t('home.aboutTitle')}
-            </h2>
+            <SplitText 
+              text={t('home.aboutTitle')}
+              className={`page-title mb-6 ${isMobile ? 'text-2xl' : 'text-4xl'}`}
+              delay={0.2}
+              stagger={0.06}
+            />
             <p className={`${isMobile ? 'text-base' : 'text-xl'} text-muted-foreground max-w-3xl mx-auto`}>
               {t('home.aboutDescription')}
             </p>

@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Upload, Image, Eye, Info, Camera, Zap, Award, Target, CheckCircle, AlertTriangle } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
+import SplitText from '@/components/SplitText';
 
 interface BreedResult {
   breedName: string;
@@ -376,7 +377,12 @@ const BreedRecognition = () => {
             <div className={`${isMobile ? 'w-10 h-10' : 'w-12 h-12'} bg-amber-400 rounded-full flex items-center justify-center`}>
               <Eye className={`${isMobile ? 'w-5 h-5' : 'w-6 h-6'} text-green-800`} />
             </div>
-            <h1 className={`${isMobile ? 'text-2xl' : 'text-4xl'} font-bold`}>🐄 AI Breed Recognition</h1>
+            <SplitText 
+              text="🐄 AI Breed Recognition"
+              className={`page-title ${isMobile ? 'text-2xl' : 'text-4xl'}`}
+              delay={0.3}
+              stagger={0.05}
+            />
           </div>
           <p className={`${isMobile ? 'text-base' : 'text-xl'} text-green-100 mb-6`}>Advanced AI-powered breed identification with 95%+ accuracy</p>
           

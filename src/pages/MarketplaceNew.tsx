@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Plus, Phone, Edit, Trash2, MoreVertical } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import ChromaGrid from '@/components/ChromaGrid';
+import SplitText from '@/components/SplitText';
 
 interface MarketplaceItem {
   id: string;
@@ -159,7 +160,12 @@ export default function MarketplaceNew() {
   return (
     <div className="container mx-auto p-4">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Cattle Marketplace</h1>
+        <SplitText 
+          text="🛒 Cattle Marketplace"
+          className="section-title"
+          delay={0.2}
+          stagger={0.04}
+        />
         {user && (
           <Dialog open={showCreateForm} onOpenChange={setShowCreateForm}>
             <DialogTrigger asChild>
