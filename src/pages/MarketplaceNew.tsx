@@ -11,6 +11,7 @@ import { Plus, Phone, Edit, Trash2, MoreVertical } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import ChromaGrid from '@/components/ChromaGrid';
 import SplitText from '@/components/SplitText';
+import Lens from '@/components/Lens';
 
 interface MarketplaceItem {
   id: string;
@@ -234,11 +235,13 @@ export default function MarketplaceNew() {
         {items.map((item) => (
           <Card key={item.id} className="relative group">
             <CardHeader>
-              <img
-                src={item.images[0]}
-                alt={item.title}
-                className="w-full h-48 object-cover rounded-md"
-              />
+              <Lens lensSize={150} zoomLevel={2.5} className="farming-theme">
+                <img
+                  src={item.images[0]}
+                  alt={item.title}
+                  className="w-full h-48 object-cover rounded-md transition-transform duration-300 hover:scale-105"
+                />
+              </Lens>
             </CardHeader>
             <CardContent>
               <div className="flex justify-between items-start mb-2">
