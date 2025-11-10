@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useLanguage } from "@/contexts/LanguageContext";
 import SplitText from "@/components/SplitText";
+import MagicBento from "@/components/MagicBento";
 
 const Home = () => {
   const cardsRef = useRef<HTMLDivElement>(null);
@@ -31,31 +32,90 @@ const Home = () => {
     return () => observer.disconnect();
   }, []);
 
-  const features = [
+  const bentoItems = [
     {
-      title: "Breed Recognition",
-      description: "Upload images or videos to identify cattle and buffalo breeds with AI precision.",
+      id: "breed-recognition",
+      title: "AI Breed Recognition",
+      description: "Upload images to identify cattle and buffalo breeds with 95%+ accuracy using advanced AI models.",
       icon: "🐄",
-      gradient: "gradient-primary",
+      size: "large" as const,
+      color: "accent" as const,
+      children: (
+        <Link to="/breed-recognition">
+          <Button className="w-full bg-green-600 hover:bg-green-700 text-white">
+            Start Recognition
+          </Button>
+        </Link>
+      )
     },
     {
+      id: "disease-prediction",
       title: "Disease Prediction",
-      description: "Early detection of diseases through image analysis and symptom evaluation.",
+      description: "Early detection of livestock diseases through AI-powered image analysis.",
       icon: "🔬",
-      gradient: "gradient-hero",
+      size: "medium" as const,
+      color: "primary" as const,
+      children: (
+        <Link to="/disease-prediction">
+          <Button variant="outline" className="w-full border-blue-300 text-blue-700 hover:bg-blue-50">
+            Analyze Health
+          </Button>
+        </Link>
+      )
     },
     {
-      title: "AI Chatbot",
+      id: "ai-chatbot",
+      title: "AI Farming Assistant",
       description: "Get instant answers to your farming questions in multiple languages.",
       icon: "🤖",
-      gradient: "gradient-wave",
+      size: "medium" as const,
+      color: "secondary" as const,
+      children: (
+        <Link to="/ai-chatbot">
+          <Button variant="outline" className="w-full border-purple-300 text-purple-700 hover:bg-purple-50">
+            Ask Questions
+          </Button>
+        </Link>
+      )
     },
     {
-      title: "Hospital Locator",
+      id: "hospital-locator",
+      title: "Veterinary Hospitals",
       description: "Find nearby veterinary hospitals with GPS-based location services.",
       icon: "🏥",
-      gradient: "gradient-earth",
+      size: "wide" as const,
+      color: "warning" as const,
+      children: (
+        <Link to="/nearby-hospitals">
+          <Button variant="outline" className="w-full border-amber-300 text-amber-700 hover:bg-amber-50">
+            Find Hospitals
+          </Button>
+        </Link>
+      )
     },
+    {
+      id: "marketplace",
+      title: "Cattle Marketplace",
+      description: "Buy and sell cattle with verified breed information and health records.",
+      icon: "🛒",
+      size: "small" as const,
+      color: "success" as const,
+      children: (
+        <Link to="/marketplace">
+          <Button variant="outline" className="w-full border-emerald-300 text-emerald-700 hover:bg-emerald-50">
+            Browse Market
+          </Button>
+        </Link>
+      )
+    },
+    {
+      id: "accuracy-stats",
+      title: "95%+ Accuracy",
+      description: "State-of-the-art AI models trained on millions of livestock images.",
+      icon: "📊",
+      size: "small" as const,
+      color: "neutral" as const
+    }
   ];
 
   return (
@@ -97,48 +157,24 @@ const Home = () => {
         </div>
       </section>
 
-      {/* About Section */}
-      <section className={`${isMobile ? 'py-12' : 'py-20'} bg-gradient-to-r from-green-100/80 via-amber-50/80 to-green-100/80 backdrop-blur-sm relative z-10`}>
+      {/* Features Section with MagicBento */}
+      <section className={`${isMobile ? 'py-12' : 'py-20'} relative z-10`}>
         <div className="container mx-auto px-4">
           <div className={`text-center ${isMobile ? 'mb-8' : 'mb-16'} fade-in-up`}>
             <SplitText 
-              text={t('home.aboutTitle')}
+              text="Smart Farming Solutions"
               className={`page-title mb-6 ${isMobile ? 'text-2xl' : 'text-4xl'}`}
               delay={0.2}
               stagger={0.06}
             />
             <p className={`${isMobile ? 'text-base' : 'text-xl'} text-muted-foreground max-w-3xl mx-auto`}>
-              {t('home.aboutDescription')}
+              Comprehensive AI-powered tools for modern livestock management and farming excellence.
             </p>
           </div>
           
-          <div className={`grid grid-cols-1 ${isMobile ? 'gap-6' : 'md:grid-cols-3 gap-8'}`}>
-            <div className="text-center fade-in-up">
-              <div className={`${isMobile ? 'w-12 h-12' : 'w-16 h-16'} gradient-primary rounded-full flex items-center justify-center mx-auto mb-4 ${isMobile ? 'text-xl' : 'text-2xl'}`}>
-                📊
-              </div>
-              <h3 className={`${isMobile ? 'text-lg' : 'text-xl'} font-bold mb-2`}>{t('home.accuracy')}</h3>
-              <p className={`text-muted-foreground ${isMobile ? 'text-sm' : ''}`}>{t('home.accuracyDesc')}</p>
-            </div>
-            <div className="text-center fade-in-up">
-              <div className={`${isMobile ? 'w-12 h-12' : 'w-16 h-16'} gradient-hero rounded-full flex items-center justify-center mx-auto mb-4 ${isMobile ? 'text-xl' : 'text-2xl'}`}>
-                ⚡
-              </div>
-              <h3 className={`${isMobile ? 'text-lg' : 'text-xl'} font-bold mb-2`}>{t('home.instantResults')}</h3>
-              <p className={`text-muted-foreground ${isMobile ? 'text-sm' : ''}`}>{t('home.instantResultsDesc')}</p>
-            </div>
-            <div className="text-center fade-in-up">
-              <div className={`${isMobile ? 'w-12 h-12' : 'w-16 h-16'} gradient-earth rounded-full flex items-center justify-center mx-auto mb-4 ${isMobile ? 'text-xl' : 'text-2xl'}`}>
-                🌍
-              </div>
-              <h3 className={`${isMobile ? 'text-lg' : 'text-xl'} font-bold mb-2`}>{t('home.multiLanguage')}</h3>
-              <p className={`text-muted-foreground ${isMobile ? 'text-sm' : ''}`}>{t('home.multiLanguageDesc')}</p>
-            </div>
-          </div>
+          <MagicBento items={bentoItems} className="max-w-6xl mx-auto" />
         </div>
       </section>
-
-
     </div>
   );
 };
