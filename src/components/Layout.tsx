@@ -7,6 +7,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { useLanguage } from "@/contexts/LanguageContext";
 import AnimatedBackground from './AnimatedBackground';
 import GooeyNav from './GooeyNav';
+import LiquidEther from './LiquidEther';
 
 const Layout = () => {
   const location = useLocation();
@@ -32,21 +33,11 @@ const Layout = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-green-50 to-emerald-100 relative overflow-hidden">
-      {/* Use animated background on Home, otherwise use the cow field photo as the background */}
-      {location.pathname === '/' ? (
-        <AnimatedBackground className="animated-bg-hidden-mobile" />
-      ) : (
-        <div className="fixed inset-0 pointer-events-none -z-20 hidden sm:block">
-          <img
-            src="https://wallpapers.com/images/high/field-full-of-cow-ufjpphyqw0h22hu5.webp"
-            alt="Field of cows background"
-            className="w-full h-full object-cover opacity-10"
-          />
-        </div>
-      )}
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Modern LiquidEther background for all pages */}
+      <LiquidEther />
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-gradient-to-r from-green-800/95 via-emerald-700/95 to-green-800/95 backdrop-blur-md border-b-2 border-amber-400/30 shadow-lg">
+      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-green-200/50 shadow-lg">
         <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
             {/* Logo */}
@@ -55,8 +46,8 @@ const Layout = () => {
                 <span className={`text-white font-bold ${isMobile ? 'text-xl' : 'text-2xl'}`}>🐄</span>
               </div>
               <div className="flex flex-col">
-                <span className={`${isMobile ? 'text-lg' : 'text-2xl'} font-bold text-white`}>{t('app.title')}</span>
-                <span className={`${isMobile ? 'text-xs' : 'text-xs'} text-amber-200`}>{t('app.subtitle')}</span>
+                <span className={`${isMobile ? 'text-lg' : 'text-2xl'} font-bold text-green-800`}>{t('app.title')}</span>
+                <span className={`${isMobile ? 'text-xs' : 'text-xs'} text-green-600`}>{t('app.subtitle')}</span>
               </div>
             </Link>
 
@@ -72,7 +63,7 @@ const Layout = () => {
             {/* Mobile Menu Button & User Menu */}
             <div className="flex items-center space-x-2">
               {!isMobile && (
-                <div className="text-amber-200 font-medium text-sm">
+                <div className="text-green-700 font-medium text-sm">
                   {t('auth.welcome')}, {user?.email?.split('@')[0] || 'Farmer'}
                 </div>
               )}
@@ -81,7 +72,7 @@ const Layout = () => {
                 variant="outline" 
                 size={isMobile ? "sm" : "sm"}
                 onClick={handleSignOut}
-                className={`border-amber-400 text-amber-300 hover:bg-amber-400 hover:text-green-800 transition-all ${isMobile ? 'px-2' : ''}`}
+                className={`border-green-300 text-green-700 hover:bg-green-100 hover:text-green-800 transition-all ${isMobile ? 'px-2' : ''}`}
               >
                 <LogOut className={`w-4 h-4 ${!isMobile ? 'mr-1' : ''}`} />
                 {!isMobile && 'Sign Out'}
@@ -93,7 +84,7 @@ const Layout = () => {
                   variant="ghost"
                   size="sm"
                   onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                  className="text-white hover:bg-white/20 p-2"
+                  className="text-green-700 hover:bg-green-100 p-2"
                 >
                   {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
                 </Button>
@@ -104,7 +95,7 @@ const Layout = () => {
           {/* Mobile Navigation Menu */}
           {isMobile && mobileMenuOpen && (
             <div className="mt-3 pb-3 border-t border-white/20">
-              <div className="text-amber-200 text-sm mb-3 px-2">
+              <div className="text-green-700 text-sm mb-3 px-2">
                 {t('auth.welcome')}, {user?.email?.split('@')[0] || 'Farmer'}
               </div>
               <nav className="space-y-1">
@@ -118,8 +109,8 @@ const Layout = () => {
                     }}
                     className={`flex items-center space-x-3 px-3 py-2 rounded-lg font-medium transition-all duration-300 text-sm ${
                       activeTab === item.path
-                        ? "bg-amber-400 text-green-800 shadow-md font-semibold"
-                        : "text-white hover:bg-white/20 hover:text-amber-200"
+                        ? "bg-green-100 text-green-800 shadow-md font-semibold"
+                        : "text-green-700 hover:bg-green-50 hover:text-green-800"
                     }`}
                   >
                     <span className="text-lg">{item.icon}</span>

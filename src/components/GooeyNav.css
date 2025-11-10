@@ -1,13 +1,14 @@
 .gooey-nav {
   position: relative;
   background: linear-gradient(135deg, #22c55e 0%, #16a34a 50%, #15803d 100%);
-  border-radius: 50px;
-  padding: 8px;
+  border-radius: 30px;
+  padding: 4px;
   box-shadow: 
     0 10px 30px rgba(34, 197, 94, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
+  height: 50px;
 }
 
 .nav-container {
@@ -19,13 +20,13 @@
 
 .gooey-bg {
   position: absolute;
-  top: 4px;
-  left: 4px;
-  right: 4px;
-  bottom: 4px;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
   background: linear-gradient(135deg, #fbbf24 0%, #f59e0b  50%, #d97706 100%);
-  border-radius: 40px;
-  width: calc((100% - 8px) / var(--nav-items, 6));
+  border-radius: 26px;
+  width: calc((100% - 4px) / var(--nav-items, 6));
   transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   box-shadow: 
     0 4px 15px rgba(251, 191, 36, 0.4),
@@ -36,20 +37,22 @@
 .nav-item {
   position: relative;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: 12px 16px;
-  border-radius: 36px;
+  padding: 8px 12px;
+  border-radius: 24px;
   text-decoration: none;
   color: rgba(255, 255, 255, 0.8);
   font-weight: 500;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   transition: all 0.3s ease;
   z-index: 2;
-  min-width: 80px;
+  min-width: 70px;
   cursor: pointer;
   user-select: none;
+  height: 42px;
+  gap: 6px;
 }
 
 .nav-item:hover {
@@ -63,8 +66,7 @@
 }
 
 .nav-icon {
-  font-size: 1.25rem;
-  margin-bottom: 4px;
+  font-size: 1rem;
   transition: transform 0.3s ease;
 }
 
@@ -77,7 +79,7 @@
 }
 
 .nav-label {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   white-space: nowrap;
   transition: all 0.3s ease;
 }
@@ -106,22 +108,24 @@
 /* Responsive design */
 @media (max-width: 768px) {
   .gooey-nav {
-    padding: 6px;
-    border-radius: 40px;
+    padding: 3px;
+    border-radius: 25px;
+    height: 45px;
   }
   
   .nav-item {
-    padding: 10px 12px;
-    min-width: 60px;
+    padding: 6px 8px;
+    min-width: 55px;
+    height: 38px;
+    gap: 4px;
   }
   
   .nav-icon {
-    font-size: 1.1rem;
-    margin-bottom: 2px;
+    font-size: 0.9rem;
   }
   
   .nav-label {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
   }
 }
 

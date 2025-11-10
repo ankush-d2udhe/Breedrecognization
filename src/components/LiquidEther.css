@@ -1,0 +1,246 @@
+.liquid-ether {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: -1;
+  background: linear-gradient(135deg, 
+    #f8fafc 0%,     /* Clean white */
+    #f1f5f9 25%,    /* Light slate */
+    #e2e8f0 50%,    /* Soft gray */
+    #f0f9ff 75%,    /* Light blue */
+    #ecfdf5 100%    /* Light green */
+  );
+}
+
+.liquid-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  filter: blur(40px);
+}
+
+.liquid-blob {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  animation: float 20s infinite ease-in-out;
+}
+
+/* Primary blobs - Main farming colors */
+.primary-blob.blob-1 {
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, 
+    rgba(34, 197, 94, 0.4) 0%,   /* Green-500 */
+    rgba(22, 163, 74, 0.3) 50%,  /* Green-600 */
+    rgba(21, 128, 61, 0.2) 100%  /* Green-700 */
+  );
+}
+
+.primary-blob.blob-2 {
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, 
+    rgba(132, 204, 22, 0.4) 0%,  /* Lime-500 */
+    rgba(101, 163, 13, 0.3) 50%, /* Lime-600 */
+    rgba(77, 124, 15, 0.2) 100%  /* Lime-700 */
+  );
+}
+
+.primary-blob.blob-3 {
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, 
+    rgba(16, 185, 129, 0.3) 0%,  /* Emerald-500 */
+    rgba(5, 150, 105, 0.25) 50%, /* Emerald-600 */
+    rgba(4, 120, 87, 0.2) 100%   /* Emerald-700 */
+  );
+}
+
+.primary-blob.blob-4 {
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, 
+    rgba(34, 197, 94, 0.35) 0%,
+    rgba(22, 163, 74, 0.25) 50%,
+    rgba(21, 128, 61, 0.15) 100%
+  );
+}
+
+.primary-blob.blob-5 {
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle, 
+    rgba(132, 204, 22, 0.3) 0%,
+    rgba(101, 163, 13, 0.2) 50%,
+    rgba(77, 124, 15, 0.1) 100%
+  );
+}
+
+.primary-blob.blob-6 {
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, 
+    rgba(16, 185, 129, 0.25) 0%,
+    rgba(5, 150, 105, 0.2) 50%,
+    rgba(4, 120, 87, 0.15) 100%
+  );
+}
+
+/* Secondary blobs - Accent colors */
+.secondary-blob.secondary-1 {
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, 
+    rgba(251, 191, 36, 0.3) 0%,  /* Amber-400 */
+    rgba(245, 158, 11, 0.2) 50%, /* Amber-500 */
+    rgba(217, 119, 6, 0.1) 100%  /* Amber-600 */
+  );
+}
+
+.secondary-blob.secondary-2 {
+  width: 220px;
+  height: 220px;
+  background: radial-gradient(circle, 
+    rgba(252, 211, 77, 0.25) 0%, /* Yellow-300 */
+    rgba(251, 191, 36, 0.2) 50%, /* Amber-400 */
+    rgba(245, 158, 11, 0.15) 100% /* Amber-500 */
+  );
+}
+
+.secondary-blob.secondary-3 {
+  width: 160px;
+  height: 160px;
+  background: radial-gradient(circle, 
+    rgba(254, 215, 170, 0.3) 0%, /* Orange-200 */
+    rgba(251, 191, 36, 0.2) 50%, /* Amber-400 */
+    rgba(217, 119, 6, 0.1) 100%  /* Amber-600 */
+  );
+}
+
+.secondary-blob.secondary-4 {
+  width: 240px;
+  height: 240px;
+  background: radial-gradient(circle, 
+    rgba(251, 191, 36, 0.2) 0%,
+    rgba(245, 158, 11, 0.15) 50%,
+    rgba(217, 119, 6, 0.1) 100%
+  );
+}
+
+/* Accent blobs - Subtle highlights */
+.accent-blob.accent-1 {
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, 
+    rgba(147, 197, 253, 0.2) 0%, /* Blue-300 */
+    rgba(96, 165, 250, 0.15) 50%, /* Blue-400 */
+    rgba(59, 130, 246, 0.1) 100%  /* Blue-500 */
+  );
+}
+
+.accent-blob.accent-2 {
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle, 
+    rgba(196, 181, 253, 0.15) 0%, /* Violet-300 */
+    rgba(167, 139, 250, 0.1) 50%, /* Violet-400 */
+    rgba(139, 92, 246, 0.05) 100% /* Violet-500 */
+  );
+}
+
+.accent-blob.accent-3 {
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, 
+    rgba(134, 239, 172, 0.2) 0%, /* Green-300 */
+    rgba(74, 222, 128, 0.15) 50%, /* Green-400 */
+    rgba(34, 197, 94, 0.1) 100%   /* Green-500 */
+  );
+}
+
+/* Overlay for depth and cleanliness */
+.liquid-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(248, 250, 252, 0.05) 25%,
+    rgba(241, 245, 249, 0.03) 50%,
+    rgba(226, 232, 240, 0.05) 75%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+  pointer-events: none;
+}
+
+/* Floating animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-20px) rotate(90deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(180deg);
+  }
+  75% {
+    transform: translateY(-30px) rotate(270deg);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .liquid-container {
+    filter: blur(30px);
+  }
+  
+  .liquid-blob {
+    transform: scale(0.7);
+  }
+}
+
+@media (max-width: 480px) {
+  .liquid-container {
+    filter: blur(25px);
+  }
+  
+  .liquid-blob {
+    transform: scale(0.5);
+  }
+}
+
+/* Performance optimizations */
+.liquid-ether {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.liquid-blob {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Clean modern aesthetic */
+.liquid-ether::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(34, 197, 94, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(132, 204, 22, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(251, 191, 36, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+}
