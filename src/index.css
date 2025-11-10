@@ -2,6 +2,99 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Modern theme transitions */
+.transitioning-theme * {
+  transition: background-color 200ms ease-in-out,
+              border-color 200ms ease-in-out,
+              color 200ms ease-in-out,
+              fill 200ms ease-in-out,
+              stroke 200ms ease-in-out,
+              opacity 200ms ease-in-out,
+              box-shadow 200ms ease-in-out;
+}
+
+@layer base {
+  :root {
+    /* Light mode */
+    --background: 88 47% 95%;
+    --foreground: 123 85% 12%;
+    
+    --card: 0 0% 100%;
+    --card-foreground: 123 85% 12%;
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 123 85% 12%;
+    
+    --primary: 122 53% 49%;
+    --primary-foreground: 355 100% 100%;
+    --primary-glow: 122 53% 49% / 25%;
+    
+    --secondary: 97 39% 74%;
+    --secondary-foreground: 123 85% 12%;
+    
+    --muted: 88 47% 95%;
+    --muted-foreground: 123 70% 20%;
+    
+    --accent: 43 100% 51%;
+    --accent-foreground: 123 85% 12%;
+    --accent-glow: 43 100% 51% / 25%;
+    
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 355 100% 100%;
+    
+    --border: 97 39% 74%;
+    --input: 97 39% 74%;
+    --ring: 43 100% 51%;
+    
+    --radius: 0.5rem;
+
+    /* Custom light mode colors */
+    --earth-brown: 25 50% 40%;
+    --earth-light: 36 50% 80%;
+    --nature-green: 122 53% 49%;
+    --field-green: 97 39% 74%;
+  }
+
+  html.dark {
+    /* Modern Dark mode */
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    
+    --card: 222.2 84% 6.9%;
+    --card-foreground: 210 40% 98%;
+    
+    --popover: 222.2 84% 6.9%;
+    --popover-foreground: 210 40% 98%;
+    
+    --primary: 142 70.6% 45.3%;
+    --primary-foreground: 144.9 80.4% 10%;
+    --primary-glow: 142 70.6% 45.3% / 15%;
+    
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    
+    --muted: 217.2 32.6% 12.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    
+    --accent: 45 93% 47%;
+    --accent-foreground: 222.2 84% 4.9%;
+    --accent-glow: 45 93% 47% / 15%;
+    
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 142 70.6% 45.3%;
+    
+    /* Custom modern dark mode colors */
+    --earth-brown: 25 30% 25%;
+    --earth-light: 36 30% 65%;
+    --nature-green: 142 70.6% 45.3%;
+    --field-green: 143 64% 24%;
+  }
+}
+
 /* Farmer-friendly design system with green, earthy brown, and yellow accents */
 
 @layer base {
@@ -61,7 +154,7 @@
     --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   }
 
-  .dark {
+  html.dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
 

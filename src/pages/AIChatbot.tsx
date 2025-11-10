@@ -331,7 +331,7 @@ const AIChatbot = () => {
           {/* Controls */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             {/* Language Selection */}
-            <Card className="bg-white/90 backdrop-blur-sm border-amber-200">
+            <Card className="bg-card/90 backdrop-blur-sm border-border/20">
               <CardContent className="p-4">
                 <div className="flex items-center gap-3">
                   <Sparkles className="w-5 h-5 text-green-600" />
@@ -352,7 +352,7 @@ const AIChatbot = () => {
             </Card>
 
             {/* Voice Control */}
-            <Card className="bg-white/90 backdrop-blur-sm border-amber-200">
+            <Card className="bg-card/90 backdrop-blur-sm border-border/20">
               <CardContent className="p-4">
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium text-green-700">Voice Chat</span>
@@ -369,7 +369,7 @@ const AIChatbot = () => {
             </Card>
 
             {/* Clear Chat */}
-            <Card className="bg-white/90 backdrop-blur-sm border-amber-200">
+            <Card className="bg-card/90 backdrop-blur-sm border-border/20">
               <CardContent className="p-4">
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium text-green-700">Clear Chat</span>
@@ -387,10 +387,10 @@ const AIChatbot = () => {
           </div>
 
           {/* Chat Interface */}
-          <Card className="bg-white/95 backdrop-blur-sm border-amber-200 shadow-2xl rounded-xl">
+          <Card className="bg-card/95 backdrop-blur-sm border-border shadow-2xl rounded-xl">
             <CardContent className="p-0">
               {/* Messages */}
-              <div className="h-[500px] overflow-y-auto p-6 space-y-4 bg-gradient-to-b from-green-50/30 to-amber-50/30">
+              <div className="h-[500px] overflow-y-auto p-6 space-y-4 bg-gradient-to-b from-green-50/10 to-amber-50/10 dark:from-background/10 dark:to-background/5">
                 {messages.map((message) => (
                   <div
                     key={message.id}
@@ -420,7 +420,7 @@ const AIChatbot = () => {
                         className={`p-4 rounded-2xl shadow-md ${
                           message.sender === "user"
                             ? "bg-gradient-to-br from-green-600 to-emerald-600 text-white"
-                            : "bg-white border border-green-200"
+                            : "bg-card border border-border text-card-foreground"
                         }`}
                       >
                         {message.image && (
@@ -436,7 +436,7 @@ const AIChatbot = () => {
                             className={`text-xs ${
                               message.sender === "user"
                                 ? "text-green-100"
-                                : "text-gray-500"
+                                : "text-muted-foreground"
                             }`}
                           >
                             {message.timestamp.toLocaleTimeString()}
@@ -478,7 +478,7 @@ const AIChatbot = () => {
                       <div className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg">
                         <Bot className="w-5 h-5 text-white" />
                       </div>
-                      <div className="p-4 rounded-2xl bg-white border border-green-200 shadow-md">
+                      <div className="p-4 rounded-2xl bg-card border border-border shadow-md">
                         <div className="flex space-x-2">
                           <div className="w-2 h-2 bg-green-500 rounded-full animate-bounce" />
                           <div className="w-2 h-2 bg-green-500 rounded-full animate-bounce" style={{ animationDelay: "0.1s" }} />
@@ -492,7 +492,7 @@ const AIChatbot = () => {
               </div>
 
               {/* Input Section */}
-              <div className="p-6 border-t border-green-200 bg-white/80 backdrop-blur-sm">
+              <div className="p-6 border-t border-border bg-card/80 backdrop-blur-sm">
                 {/* Image Preview */}
                 {selectedImage && (
                   <div className="mb-4 relative inline-block">
@@ -530,7 +530,7 @@ const AIChatbot = () => {
                       onChange={(e) => setInputText(e.target.value)}
                       placeholder="Ask about farming, livestock care, or crop management..."
                       onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-                      className="border-green-200 focus:border-amber-400 focus:ring-amber-400 bg-white/90"
+                      className="border-border focus:border-amber-400 focus:ring-amber-400 bg-card/90 text-card-foreground"
                     />
                   </div>
 
