@@ -7,7 +7,9 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
-import { Plus, Phone } from 'lucide-react';
+import { Plus, Phone, Edit, Trash2, MoreVertical } from 'lucide-react';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import ChromaGrid from '@/components/ChromaGrid';
 
 interface MarketplaceItem {
   id: string;
@@ -34,6 +36,7 @@ export default function MarketplaceNew() {
     description: '',
     image: null as File | null
   });
+  const [editingItem, setEditingItem] = useState<MarketplaceItem | null>(null);
 
   useEffect(() => {
     fetchItems();
@@ -69,31 +72,86 @@ export default function MarketplaceNew() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user || !formData.image) return;
+    if (!user) return;
 
     try {
-      const imageUrl = await uploadImage(formData.image);
+      let imageUrl = editingItem?.images[0];
       
-      const { error } = await supabase
-        .from('marketplace_items')
-        .insert({
-          title: formData.title,
-          price: parseFloat(formData.price),
-          description: formData.description,
-          images: [imageUrl],
-          seller_id: user.id,
-          category: 'cattle',
-          status: 'active'
-        });
+      if (formData.image) {
+        imageUrl = await uploadImage(formData.image);
+      }
 
-      if (error) throw error;
+      if (editingItem) {
+        // Update existing item
+        const { error } = await supabase
+          .from('marketplace_items')
+          .update({
+            title: formData.title,
+            price: parseFloat(formData.price),
+            description: formData.description,
+            ...(imageUrl && { images: [imageUrl] })
+          })
+          .eq('id', editingItem.id);
+
+        if (error) throw error;
+      } else {
+        // Create new item
+        if (!imageUrl) return;
+        
+        const { error } = await supabase
+          .from('marketplace_items')
+          .insert({
+            title: formData.title,
+            price: parseFloat(formData.price),
+            description: formData.description,
+            images: [imageUrl],
+            seller_id: user.id,
+            category: 'cattle',
+            status: 'active'
+          });
+
+        if (error) throw error;
+      }
 
       setFormData({ title: '', price: '', description: '', image: null });
+      setEditingItem(null);
       setShowCreateForm(false);
       fetchItems();
     } catch (error) {
-      console.error('Error creating post:', error);
+      console.error('Error saving post:', error);
     }
+  };
+
+  const handleEdit = (item: MarketplaceItem) => {
+    setEditingItem(item);
+    setFormData({
+      title: item.title,
+      price: item.price.toString(),
+      description: item.description,
+      image: null
+    });
+    setShowCreateForm(true);
+  };
+
+  const handleDelete = async (itemId: string) => {
+    if (!confirm('Are you sure you want to delete this post?')) return;
+
+    try {
+      const { error } = await supabase
+        .from('marketplace_items')
+        .delete()
+        .eq('id', itemId);
+
+      if (error) throw error;
+      fetchItems();
+    } catch (error) {
+      console.error('Error deleting post:', error);
+    }
+  };
+
+  const resetForm = () => {
+    setFormData({ title: '', price: '', description: '', image: null });
+    setEditingItem(null);
   };
 
   if (loading) return <div className="p-4">Loading marketplace...</div>;
@@ -109,7 +167,7 @@ export default function MarketplaceNew() {
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Create New Post</DialogTitle>
+                <DialogTitle>{editingItem ? 'Edit Post' : 'Create New Post'}</DialogTitle>
               </DialogHeader>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
@@ -150,16 +208,25 @@ export default function MarketplaceNew() {
                     required
                   />
                 </div>
-                <Button type="submit" className="w-full">Create Post</Button>
+                <div className="flex gap-2">
+                  <Button type="submit" className="flex-1">
+                    {editingItem ? 'Update Post' : 'Create Post'}
+                  </Button>
+                  {editingItem && (
+                    <Button type="button" variant="outline" onClick={resetForm}>
+                      Cancel
+                    </Button>
+                  )}
+                </div>
               </form>
             </DialogContent>
           </Dialog>
         )}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <ChromaGrid className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {items.map((item) => (
-          <Card key={item.id}>
+          <Card key={item.id} className="relative group">
             <CardHeader>
               <img
                 src={item.images[0]}
@@ -168,7 +235,26 @@ export default function MarketplaceNew() {
               />
             </CardHeader>
             <CardContent>
-              <CardTitle className="mb-2">{item.title}</CardTitle>
+              <div className="flex justify-between items-start mb-2">
+                <CardTitle>{item.title}</CardTitle>
+                {user?.id === item.seller_id && (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
+                        <MoreVertical className="w-4 h-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuItem onClick={() => handleEdit(item)}>
+                        <Edit className="w-4 h-4 mr-2" />Edit
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleDelete(item.id)} className="text-red-600">
+                        <Trash2 className="w-4 h-4 mr-2" />Delete
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                )}
+              </div>
               <p className="text-2xl font-bold text-green-600 mb-2">₹{item.price.toLocaleString()}</p>
               <p className="text-gray-600 mb-4">{item.description}</p>
               <div className="space-y-2">
@@ -190,7 +276,7 @@ export default function MarketplaceNew() {
             </CardContent>
           </Card>
         ))}
-      </div>
+      </ChromaGrid>
 
       {items.length === 0 && (
         <div className="text-center py-12">
