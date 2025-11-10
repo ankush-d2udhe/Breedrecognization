@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -33,11 +31,10 @@ interface Message {
   sender: "user" | "bot";
   timestamp: Date;
   image?: string;
-  isVoice?: boolean;
 }
 
 const AIChatbot = () => {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState("");
   const [selectedLanguage, setSelectedLanguage] = useState("english");
@@ -76,13 +73,8 @@ const AIChatbot = () => {
         setIsListening(false);
       };
       
-      recognitionRef.current.onerror = () => {
-        setIsListening(false);
-      };
-      
-      recognitionRef.current.onend = () => {
-        setIsListening(false);
-      };
+      recognitionRef.current.onerror = () => setIsListening(false);
+      recognitionRef.current.onend = () => setIsListening(false);
     }
   }, [selectedLanguage]);
 
@@ -102,7 +94,7 @@ const AIChatbot = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // Send message to OpenRouter API
+  // Send message to OpenAI API
   const sendMessage = async () => {
     if (!inputText.trim() && !selectedImage) return;
 
@@ -119,43 +111,63 @@ const AIChatbot = () => {
     setSelectedImage(null);
     setIsTyping(true);
 
-    // Check if API key is present, if not use mock responses
-    const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-    console.log('Gemini API Key status:', apiKey ? 'Present' : 'Missing');
+    const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
     
-    if (!apiKey || apiKey === "your_gemini_api_key_here" || apiKey === "undefined") {
-      // Use mock AI responses for demo
+    if (!apiKey || apiKey === "your_openai_api_key_here") {
+      // Intelligent mock responses based on user input
       setTimeout(() => {
-        const mockResponses = {
-          english: [
-            "🐄 For cattle health, ensure regular vaccination and clean water supply. Monitor for signs of illness like loss of appetite or unusual behavior.",
-            "🌾 Crop rotation is essential for soil health. Consider legumes to naturally fix nitrogen in the soil.",
-            "💊 Vaccination schedule: FMD every 6 months, Anthrax annually, and Brucellosis as recommended by your vet.",
-            "🌱 For better milk production, provide balanced nutrition with green fodder, concentrates, and mineral supplements.",
-            "🏥 Regular health checkups every 3 months can prevent major diseases. Contact your nearest veterinary hospital."
-          ],
-          hindi: [
-            "🐄 गाय की सेहत के लिए नियमित टीकाकरण और साफ पानी जरूरी है। भूख न लगना या असामान्य व्यवहार जैसे लक्षणों पर ध्यान दें।",
-            "🌾 मिट्टी की सेहत के लिए फसल चक्र जरूरी है। दलहनी फसलों से मिट्टी में नाइट्रोजन की मात्रा बढ़ती है।",
-            "💊 टीकाकरण कार्यक्रम: FMD हर 6 महीने, एंथ्रेक्स सालाना, और ब्रुसेलोसिस पशु चिकित्सक की सलाह पर।",
-            "🌱 बेहतर दूध उत्पादन के लिए हरा चारा, दाना और खनिज पूरक आहार दें।",
-            "🏥 हर 3 महीने में स्वास्थ्य जांच से बड़ी बीमारियों से बचा जा सकता है।"
-          ],
-          marathi: [
-            "🐄 गुरांच्या आरोग्यासाठी नियमित लसीकरण आणि स्वच्छ पाणी आवश्यक आहे। भूक न लागणे किंवा असामान्य वर्तन यावर लक्ष ठेवा।",
-            "🌾 मातीच्या आरोग्यासाठी पीक चक्र महत्वाचे आहे। कडधान्य पिकांमुळे मातीत नायट्रोजन वाढते।",
-            "💊 लसीकरण वेळापत्रक: FMD दर 6 महिन्यांनी, अँथ्रॅक्स वार्षिक, आणि ब्रुसेलोसिस पशुवैद्यकाच्या सल्ल्यानुसार।",
-            "🌱 चांगल्या दूध उत्पादनासाठी हिरवा चारा, दाणा आणि खनिज पूरक आहार द्या।",
-            "🏥 दर 3 महिन्यांनी आरोग्य तपासणी केल्याने मोठे आजार टाळता येतात।"
-          ]
-        };
+        const userInput = userMessage.text.toLowerCase();
+        let response = "";
         
-        const responses = mockResponses[selectedLanguage as keyof typeof mockResponses] || mockResponses.english;
-        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+        // Contextual responses based on keywords
+        if (userInput.includes('cattle') || userInput.includes('cow') || userInput.includes('buffalo') || userInput.includes('गाय') || userInput.includes('भैंस') || userInput.includes('गुरे')) {
+          const cattleResponses = {
+            english: "🐄 For cattle health: Provide clean water daily, vaccinate against FMD every 6 months, feed balanced diet with green fodder and concentrates. Watch for symptoms like reduced appetite, fever, or unusual behavior. Consult a vet immediately if you notice any issues.",
+            hindi: "🐄 गाय-भैंस की देखभाल: रोज साफ पानी दें, हर 6 महीने में FMD का टीका लगवाएं, हरा चारा और दाना मिलाकर संतुलित आहार दें। भूख कम लगना, बुखार या असामान्य व्यवहार दिखे तो तुरंत पशु चिकित्सक से संपर्क करें।",
+            marathi: "🐄 गुरांची काळजी: दररोज स्वच्छ पाणी द्या, दर 6 महिन्यांनी FMD लस द्या, हिरवा चारा आणि दाणा मिसळून संतुलित आहार द्या। भूक कमी लागणे, ताप किंवा असामान्य वर्तन दिसल्यास लगेच पशुवैद्यकांशी संपर्क साधा."
+          };
+          response = cattleResponses[selectedLanguage as keyof typeof cattleResponses];
+        } else if (userInput.includes('crop') || userInput.includes('disease') || userInput.includes('plant') || userInput.includes('फसल') || userInput.includes('रोग') || userInput.includes('पीक')) {
+          const cropResponses = {
+            english: "🌾 Crop disease management: Use disease-resistant varieties, practice crop rotation, ensure proper drainage, apply organic fungicides like neem oil. Common signs include yellowing leaves, spots, wilting. Early detection and treatment are crucial for good yield.",
+            hindi: "🌾 फसल रोग प्रबंधन: रोग प्रतिरोधी किस्में उगाएं, फसल चक्र अपनाएं, उचित जल निकासी करें, नीम तेल जैसे जैविक फफूंदनाशक का प्रयोग करें। पत्तियों का पीला होना, धब्बे, मुरझाना आम लक्षण हैं।",
+            marathi: "🌾 पीक रोग व्यवस्थापन: रोगप्रतिकारक जाती लावा, पीक चक्र अवलंबा, योग्य पाणी निचरा करा, कडुनिंब तेल सारखे सेंद्रिय बुरशीनाशक वापरा. पानांचे पिवळे होणे, डाग, कोमेजणे ही सामान्य लक्षणे आहेत."
+          };
+          response = cropResponses[selectedLanguage as keyof typeof cropResponses];
+        } else if (userInput.includes('vaccination') || userInput.includes('vaccine') || userInput.includes('टीका') || userInput.includes('लसीकरण')) {
+          const vaccineResponses = {
+            english: "💉 Vaccination Schedule: FMD (Foot & Mouth Disease) - Every 6 months, Anthrax - Annually, Brucellosis - As per vet advice, Blackquarter - Annually for young cattle. Keep vaccination records and follow your local veterinary guidelines.",
+            hindi: "💉 टीकाकरण कार्यक्रम: FMD (मुंह-खुर रोग) - हर 6 महीने, एंथ्रेक्स - सालाना, ब्रुसेलोसिस - पशु चिकित्सक की सलाह पर, गलघोंटू - युवा पशुओं के लिए सालाना। टीकाकरण का रिकॉर्ड रखें।",
+            marathi: "💉 लसीकरण वेळापत्रक: FMD (तोंड-खुर रोग) - दर 6 महिन्यांनी, अँथ्रॅक्स - वार्षिक, ब्रुसेलोसिस - पशुवैद्यकाच्या सल्ल्यानुसार, काळा पाय - तरुण गुरांसाठी वार्षिक. लसीकरणाची नोंद ठेवा."
+          };
+          response = vaccineResponses[selectedLanguage as keyof typeof vaccineResponses];
+        } else if (userInput.includes('milk') || userInput.includes('production') || userInput.includes('दूध') || userInput.includes('उत्पादन')) {
+          const milkResponses = {
+            english: "🥛 Increase milk production: Feed high-quality green fodder (berseem, maize), provide 2-3 kg concentrates daily, ensure 50-80L clean water, maintain stress-free environment, regular milking schedule, and mineral supplements. Good nutrition = better milk yield.",
+            hindi: "🥛 दूध उत्पादन बढ़ाने के लिए: उच्च गुणवत्ता का हरा चारा (बरसीम, मक्का) दें, रोज 2-3 किलो दाना दें, 50-80 लीटर साफ पानी दें, तनावमुक्त वातावरण बनाएं, नियमित दुहने का समय रखें।",
+            marathi: "🥛 दूध उत्पादन वाढवण्यासाठी: उच्च दर्जाचा हिरवा चारा (बरसीम, मका) द्या, दररोज 2-3 किलो दाणा द्या, 50-80 लिटर स्वच्छ पाणी द्या, तणावमुक्त वातावरण राखा, नियमित दुहण्याची वेळ ठेवा."
+          };
+          response = milkResponses[selectedLanguage as keyof typeof milkResponses];
+        } else if (userInput.includes('feed') || userInput.includes('nutrition') || userInput.includes('चारा') || userInput.includes('आहार')) {
+          const feedResponses = {
+            english: "🌱 Cattle nutrition: Green fodder 25-30kg/day, dry fodder 5-7kg, concentrates 2-4kg based on milk production, salt 50-60g, mineral mixture 50g daily. Ensure fresh water availability 24/7. Balanced nutrition improves health and productivity.",
+            hindi: "🌱 पशु आहार: हरा चारा 25-30 किलो/दिन, सूखा चारा 5-7 किलो, दाना 2-4 किलो (दूध उत्पादन के अनुसार), नमक 50-60 ग्राम, खनिज मिश्रण 50 ग्राम रोज। 24 घंटे ताजा पानी उपलब्ध रखें।",
+            marathi: "🌱 गुरांचे पोषण: हिरवा चारा 25-30 किलो/दिवस, कोरडा चारा 5-7 किलो, दाणा 2-4 किलो (दूध उत्पादनानुसार), मीठ 50-60 ग्राम, खनिज मिश्रण 50 ग्राम दररोज. 24 तास ताजे पाणी उपलब्ध ठेवा."
+          };
+          response = feedResponses[selectedLanguage as keyof typeof feedResponses];
+        } else {
+          // General farming advice
+          const generalResponses = {
+            english: "🌾 I'm here to help with farming questions! Ask me about cattle care, crop diseases, vaccination schedules, milk production, animal nutrition, or any other agricultural topics. What specific farming challenge can I help you with?",
+            hindi: "🌾 मैं खेती के सवालों में आपकी मदद के लिए यहां हूं! मुझसे पशुपालन, फसल रोग, टीकाकरण, दूध उत्पादन, पशु आहार या अन्य कृषि विषयों के बारे में पूछें। कौन सी खेती की समस्या में मैं आपकी मदद कर सकता हूं?",
+            marathi: "🌾 मी शेतीच्या प्रश्नांमध्ये तुमची मदत करण्यासाठी येथे आहे! माझ्याकडे पशुपालन, पीक रोग, लसीकरण, दूध उत्पादन, पशु आहार किंवा इतर शेती विषयांबद्दल विचारा. कोणत्या शेतीच्या आव्हानात मी तुमची मदत करू शकतो?"
+          };
+          response = generalResponses[selectedLanguage as keyof typeof generalResponses];
+        }
         
         const botResponse: Message = {
           id: (Date.now() + 1).toString(),
-          text: randomResponse,
+          text: response,
           sender: "bot",
           timestamp: new Date(),
         };
@@ -169,28 +181,37 @@ const AIChatbot = () => {
     try {
       const prompt = `You are a helpful AI farming assistant specializing in livestock care, crop management, disease identification, and agricultural best practices. Respond in ${languages[selectedLanguage as keyof typeof languages]}. Be friendly, informative, and use farming emojis when appropriate.\n\nUser: ${selectedImage ? `${userMessage.text} [User has uploaded an image - please acknowledge this and provide relevant farming advice based on the context]` : userMessage.text}`;
 
-      console.log('Making API request to Gemini...');
-      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`, {
+      const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${apiKey}`,
+          "HTTP-Referer": "https://farmsenseglow.vercel.app",
+          "X-Title": "FarmSenseGlow",
         },
         body: JSON.stringify({
-          contents: [{
-            parts: [{ text: prompt }]
-          }]
+          model: "openai/gpt-3.5-turbo",
+          messages: [
+            {
+              role: "system",
+              content: "You are a helpful AI farming assistant specializing in livestock care, crop management, disease identification, and agricultural best practices. Be friendly, informative, and use farming emojis when appropriate."
+            },
+            {
+              role: "user",
+              content: prompt
+            }
+          ],
+          max_tokens: 500,
+          temperature: 0.7,
         }),
       });
 
-      if (!res.ok) {
-        throw new Error(`API error: ${res.status}`);
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
       }
 
-      const data = await res.json();
-      
-      const reply =
-        data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim() ||
-        "⚠️ Sorry, I couldn't generate a response.";
+      const data = await response.json();
+      const reply = data.choices?.[0]?.message?.content?.trim() || "⚠️ Sorry, I couldn't generate a response.";
 
       const botResponse: Message = {
         id: (Date.now() + 1).toString(),
@@ -202,15 +223,23 @@ const AIChatbot = () => {
       setMessages((prev) => [...prev, botResponse]);
     } catch (err) {
       console.error("Chat error:", err);
-      const errorMessage = err instanceof Error && err.message.includes('401') 
-        ? "🔑 Gemini API key not configured. Using demo responses for now. Contact admin to enable full AI features."
-        : "⚠️ Error contacting Gemini AI service. Please try again.";
+      const errorMessage = "⚠️ Error contacting AI service. Using demo response.";
+      
+      // Fallback to mock response
+      const userInput = userMessage.text.toLowerCase();
+      let fallbackResponse = "🌾 I'm here to help with farming questions! Ask me about cattle care, crop diseases, vaccination schedules, or any agricultural topics.";
+      
+      if (userInput.includes('cattle') || userInput.includes('cow')) {
+        fallbackResponse = "🐄 For cattle health: Provide clean water daily, vaccinate against FMD every 6 months, feed balanced diet with green fodder and concentrates.";
+      } else if (userInput.includes('crop') || userInput.includes('disease')) {
+        fallbackResponse = "🌾 Crop disease management: Use disease-resistant varieties, practice crop rotation, apply organic fungicides like neem oil.";
+      }
       
       setMessages((prev) => [
         ...prev,
         {
           id: (Date.now() + 2).toString(),
-          text: errorMessage,
+          text: fallbackResponse,
           sender: "bot",
           timestamp: new Date(),
         },
@@ -488,7 +517,7 @@ const AIChatbot = () => {
                     <Input
                       value={inputText}
                       onChange={(e) => setInputText(e.target.value)}
-                      placeholder={t('chatbot.placeholder')}
+                      placeholder="Ask about farming, livestock care, or crop management..."
                       onKeyDown={(e) => e.key === "Enter" && sendMessage()}
                       className="border-green-200 focus:border-amber-400 focus:ring-amber-400 bg-white/90"
                     />
