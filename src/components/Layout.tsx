@@ -63,8 +63,9 @@ const Layout = () => {
             {/* Mobile Menu Button & User Menu */}
             <div className="flex items-center space-x-2">
               {!isMobile && (
-                <div className="text-green-700 font-medium text-sm">
-                  {t('auth.welcome')}, {user?.email?.split('@')[0] || 'Farmer'}
+                <div className="text-green-700 font-medium text-sm flex items-center gap-1">
+                  <span>👤</span>
+                  <span>{t('auth.welcome')}, {user?.email?.split('@')[0] || 'Farmer'}</span>
                 </div>
               )}
               
@@ -95,8 +96,9 @@ const Layout = () => {
           {/* Mobile Navigation Menu */}
           {isMobile && mobileMenuOpen && (
             <div className="mt-3 pb-3 border-t border-white/20">
-              <div className="text-green-700 text-sm mb-3 px-2">
-                {t('auth.welcome')}, {user?.email?.split('@')[0] || 'Farmer'}
+              <div className="text-green-700 text-sm mb-3 px-2 flex items-center gap-2">
+                <span>😊</span>
+                <span>{t('auth.welcome')}, {user?.email?.split('@')[0] || 'Farmer'}</span>
               </div>
               <nav className="space-y-1">
                 {navItems.map((item) => (

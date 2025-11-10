@@ -75,6 +75,9 @@ const SplitText = ({
   }, [text, delay, duration, stagger]);
 
   const splitTextIntoChars = (text: string) => {
+    if (!text || text.trim() === '') {
+      return [<span key="fallback" className="char">Loading...</span>];
+    }
     return text.split('').map((char, index) => (
       <span 
         key={index} 
@@ -88,7 +91,7 @@ const SplitText = ({
 
   return (
     <div ref={textRef} className={`split-text ${className}`}>
-      {splitTextIntoChars(text)}
+      {splitTextIntoChars(text || 'Loading...')}
     </div>
   );
 };

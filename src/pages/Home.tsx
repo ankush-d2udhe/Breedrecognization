@@ -74,8 +74,8 @@ const Home = () => {
         
         <div className={`relative z-10 text-center text-white ${isMobile ? 'max-w-sm' : 'max-w-4xl'} mx-auto px-4`}>
           <SplitText 
-            text={t('home.heroTitle')}
-            className={`hero-title mb-6 ${isMobile ? 'text-3xl' : 'text-5xl md:text-7xl'}`}
+            text={t('home.heroTitle') || 'Revolutionizing Livestock Management'}
+            className={`hero-title-white mb-6 ${isMobile ? 'text-3xl' : 'text-5xl md:text-7xl'}`}
             delay={0.5}
             stagger={0.08}
           />

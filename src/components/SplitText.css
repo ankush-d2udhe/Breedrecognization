@@ -39,6 +39,28 @@
   letter-spacing: -0.02em;
 }
 
+.split-text.hero-title-white {
+  font-size: clamp(2.5rem, 8vw, 6rem);
+  font-weight: 800;
+  color: white;
+  text-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.5),
+    0 4px 8px rgba(0, 0, 0, 0.3);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.split-text.hero-title-white .char {
+  color: white;
+}
+
+.split-text.hero-title-white .char:hover {
+  color: #fbbf24;
+  text-shadow: 
+    0 2px 4px rgba(251, 191, 36, 0.5),
+    0 4px 8px rgba(251, 191, 36, 0.3);
+}
+
 .split-text.page-title {
   font-size: clamp(2rem, 6vw, 4rem);
   font-weight: 700;
